@@ -6,7 +6,7 @@ module.exports = {
     // Filtrar por tecnologia
     async index(request, response) {
         // console.log(request.query);
-        const { latutude, longitude, techs } = request.query;
+        const { latitude, longitude, techs } = request.query;
 
         const techsArray = parseStringAsArray(techs);
 
