@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes');
-
+const cors = require('cors');
+;
 const app = express();
 
 mongoose.connect('mongodb+srv://omnistack10:omnistack10@cluster0-krgxg.mongodb.net/week10?retryWrites=true&w=majority', {
@@ -11,6 +12,9 @@ mongoose.connect('mongodb+srv://omnistack10:omnistack10@cluster0-krgxg.mongodb.n
     useCreateIndex: true,
 });
 
+// tornar esta API acessível ao React - extensão que evita o bloqueio: cors
+// app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors()); // libera acesso externo pra todo tipo de aplicação
 app.use(express.json()); // todas as rotas da aplicação passam a entender as requisições que têm o corpo e o formato json
 app.use(routes);
 
