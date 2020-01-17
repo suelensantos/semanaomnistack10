@@ -5,6 +5,6 @@ Aplicação chamada **DevRadar**, com a finalidade de localizar desenvolvedores 
 
 As tecnologias utilizadas foram:
 
-* Back-end: Node.js
-* Front-end: ReactJS
-* Mobile: React Native
+* Back-end: Node.js [framework *express*]
+* Front-end: ReactJS 
+* Mobile: React Native [ferramenta *expo*]
