@@ -5,6 +5,7 @@ import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
 import { MaterialIcons } from '@expo/vector-icons';
 
 import api from '../services/api';
+import { connect, disconnect, subscribeToNewDevs } from '../services/socket';
 
 // TO DO: Acessar a API do teclado (KeyBoard do react-native) para corrigir sua exibição sobre o campo de busca (searchInput).
 // Desfazer em estilização searchForm: para bottom: 20, e corrigir o teclado.
@@ -37,6 +38,26 @@ function Main({ navigation }) {
         loadInitialPosition();
     }, []);
 
+    // useEffect dispara uma função toda vez que uma variável muda de valor
+    // vai ser monitorado a variável devs (em [devs])
+    // 
+    useEffect(() => {
+        // a função recebe os dados do dev a ser inscrito
+        subscribeToNewDevs(dev => setDevs([...devs, dev]));
+    }, [devs]);
+
+    function setupWebsocket() {
+        disconnect(); // desconecta qualquer conexões existente
+
+        const { latitude, longitude } = currentRegion;
+
+        connect(
+            latitude,
+            longitude,
+            techs,
+        );
+    }
+
     // carrega os desenvolvedores da api
     async function loadDevs() {
         const { latitude, longitude } = currentRegion;
@@ -49,11 +70,14 @@ function Main({ navigation }) {
             }
         });
 
-        console.log(response.data);
+        // console.log(response.data);
 
         setDevs(response.data.devs);
-    }
 
+        // função que conecta em tempo real para localizar outros devs 
+        // no raio de 10km que trabalhm com a tecnologia dada no input.
+        setupWebsocket(); 
+    }
     // muda o estado currentRegion qdo o usuário muda de região no mapa
     function handleRegionChanged(region) {
         setCurrentRegion(region);
