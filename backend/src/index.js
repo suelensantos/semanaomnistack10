@@ -1,9 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const routes = require('./routes');
 const cors = require('cors');
-;
+const http = require('http');
+
+const routes = require('./routes');
+const { setupWebsocket } = require('./websocket');
+
 const app = express();
+const server = http.Server(app); // aqui já tem o servidor http fora do express
+
+setupWebsocket(server);
 
 mongoose.connect('mongodb+srv://omnistack10:omnistack10@cluster0-krgxg.mongodb.net/week10?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -35,4 +41,5 @@ app.use(routes);
 // mongoose - biblioteca que vai dar acesso do node.js dentro da base de dados do mongo
 // MongoDB Compass Community- É uma aplicação cliente para acessar o MongoDB
 
-app.listen(3333);
+// app.listen(3333);
+server.listen(3333);

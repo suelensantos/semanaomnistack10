@@ -1,7 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, YellowBox } from 'react-native';
 
 import Routes from './src/routes';
+
+YellowBox.ignoreWarnings([
+  'Unrecognized WebSocket'
+]);
 
 // No React Native não se utiliza as tags HTML,assim como propriedades classes e ids, apenas no React. 
 // Exemplo: <div></div>; className=""; id="".
